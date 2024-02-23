@@ -8,6 +8,3 @@ data Formula = T
     |   Imp Formula Formula
     |   Eqv Formula Formula
     deriving Show
-
-    
-
