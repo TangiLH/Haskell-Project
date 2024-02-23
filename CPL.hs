@@ -8,3 +8,10 @@ data Formula = T
     |   Imp Formula Formula
     |   Eqv Formula Formula
     deriving Show
+
+data World = [] | String : World
+    deriving Show
+
+genAllWorlds:: World -> [World]
+genAllWorlds [] = []
+genAllWorlds x:xs = x : genAllWorlds xs
