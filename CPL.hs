@@ -58,3 +58,24 @@ sat w (Var s)= isInList s w
 testSat = [ sat [""] T == True,
     sat [""] (And T F) ==False,
     sat ["a"] (Var "a")==True]
+
+findVar :: Formula -> World
+findVar T = []
+findVar F = []
+findVar  (And f1 f2)= (findVar  f1) ++ (findVar  f2)
+findVar  (Or f1 f2)= (findVar  f1) ++ (findVar  f2)
+findVar  (Not f)=(findVar  f)
+findVar  (Imp f1 f2)= (findVar  f1) ++ (findVar  f2)
+findVar  (Eqv f1 f2) = (findVar  f1) ++ (findVar  f2)
+findVar  (Var s)= [s]
+
+
+
+findWorld:: Formula -> [World]
+findWorld f = findWorldRec f (genAllWorlds (findVar f))
+
+findWorldRec :: Formula -> [World] -> [World]
+findWorldRec _ [] = []
+findWorldRec f (w:ws)
+    |(sat w f) = w:(findWorldRec f ws)
+    |otherwise =(findWorldRec f ws)
