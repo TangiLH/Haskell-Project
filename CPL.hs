@@ -12,7 +12,7 @@ data Formula = T
 type World = [String]
 
 genAllWorlds :: World -> [World]
-genAllWorlds a = (genAllWorldsRec a)++genAllList a
+genAllWorlds a = (genAllWorldsRec a)++genAllList a ++ [[]]
 
 genAllWorldsRec:: World -> [World]
 genAllWorldsRec [] = []
@@ -40,5 +40,21 @@ testIsInList=[isInList 5 []==False,
     isInList 4 [1,2,3,4]==True]
 
 genAllList:: [a] -> [[a]]
-genAllList []=[]
+genAllList []= []
 genAllList (x:xs)=[x]:(genAllList xs)
+
+sat :: World -> Formula -> Bool
+sat _ T = True
+sat _ F = False
+sat w (And f1 f2)= (sat w f1) && (sat w f2)
+sat w (Or f1 f2)= (sat w f1) || (sat w f2)
+sat w (Not f)= not (sat w f)
+sat w (Imp f1 f2)
+    |(sat w f1) && not (sat w f2)  = False
+    |otherwise = True
+sat w (Eqv f1 f2) = (sat w f1) == (sat w f2)
+sat w (Var s)= isInList s w
+
+testSat = [ sat [""] T == True,
+    sat [""] (And T F) ==False,
+    sat ["a"] (Var "a")==True]
