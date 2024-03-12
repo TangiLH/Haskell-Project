@@ -62,11 +62,11 @@ testSat = [ sat [""] T == True,
 findVar :: Formula -> World
 findVar T = []
 findVar F = []
-findVar  (And f1 f2)= (findVar  f1) ++ (findVar  f2)
-findVar  (Or f1 f2)= (findVar  f1) ++ (findVar  f2)
-findVar  (Not f)=(findVar  f)
-findVar  (Imp f1 f2)= (findVar  f1) ++ (findVar  f2)
-findVar  (Eqv f1 f2) = (findVar  f1) ++ (findVar  f2)
+findVar  (And f1 f2)= uniq((findVar  f1) ++ (findVar  f2))
+findVar  (Or f1 f2)= uniq((findVar  f1) ++ (findVar  f2))
+findVar  (Not f)=uniq((findVar  f))
+findVar  (Imp f1 f2)= uniq((findVar  f1) ++ (findVar  f2))
+findVar  (Eqv f1 f2) = uniq((findVar  f1) ++ (findVar  f2))
 findVar  (Var s)= [s]
 
 
