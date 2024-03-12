@@ -1,3 +1,4 @@
+module Cha3 (challenge3) where
 import CPL
 
 constraint :: Formula 

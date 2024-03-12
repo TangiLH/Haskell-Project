@@ -1,4 +1,4 @@
-module Challenge5 where
+module Cha5 (challenge5) where
 import CPL
 
 constraint :: Formula 

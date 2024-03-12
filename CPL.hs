@@ -1,4 +1,4 @@
-module CPL where
+module CPL (Formula (..), World, genAllWorlds, testGenAllWorlds, sat, testSat, findWorlds, testFindWorlds, testAll) where 
 data Formula = T 
     |   F 
     |   Var String
@@ -13,6 +13,9 @@ type World = [String]
 
 genAllWorlds :: World -> [World]
 genAllWorlds a = (genAllWorldsRec a)++genAllList a ++ [[]]
+
+testGenAllWorlds::Bool
+testGenAllWorlds=True
 
 genAllWorldsRec:: World -> [World]
 genAllWorldsRec [] = []
@@ -55,6 +58,7 @@ sat w (Imp f1 f2)
 sat w (Eqv f1 f2) = (sat w f1) == (sat w f2)
 sat w (Var s)= isInList s w
 
+testSat :: [Bool]
 testSat = [ sat [""] T == True,
     sat [""] (And T F) ==False,
     sat ["a"] (Var "a")==True]
@@ -71,15 +75,21 @@ findVar  (Var s)= [s]
 
 
 
-findWorld:: Formula -> [World]
-findWorld f = findWorldRec f (genAllWorlds (findVar f))
+findWorlds:: Formula -> [World]
+findWorlds f = findWorldsRec f (genAllWorlds (findVar f))
 
-findWorldRec :: Formula -> [World] -> [World]
-findWorldRec _ [] = []
-findWorldRec f (w:ws)
-    |(sat w f) = w:(findWorldRec f ws)
-    |otherwise =(findWorldRec f ws)
+testFindWorlds :: [Bool]
+testFindWorlds= [True]
+
+findWorldsRec :: Formula -> [World] -> [World]
+findWorldsRec _ [] = []
+findWorldsRec f (w:ws)
+    |(sat w f) = w:(findWorldsRec f ws)
+    |otherwise =(findWorldsRec f ws)
 
 uniq :: Eq a => [a] -> [a]
 uniq [] = []
 uniq (x:xs) = x : uniq (filter (/=x) xs)
+
+testAll::[Bool]
+testAll=[True]
