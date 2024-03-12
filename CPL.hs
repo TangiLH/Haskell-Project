@@ -79,3 +79,7 @@ findWorldRec _ [] = []
 findWorldRec f (w:ws)
     |(sat w f) = w:(findWorldRec f ws)
     |otherwise =(findWorldRec f ws)
+
+uniq :: Eq a => [a] -> [a]
+uniq [] = []
+uniq (x:xs) = x : uniq (filter (/=x) xs)
