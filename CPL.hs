@@ -11,12 +11,14 @@ data Formula = T
 
 type World = [String]
 
+--genere tout les mondes possibles d'apres un monde (toutes les combinaisons)
 genAllWorlds :: World -> [World]
 genAllWorlds a = (genAllWorldsRec a)++genAllList a ++ [[]]
 
 testGenAllWorlds::[Bool]
 testGenAllWorlds=[listIsInList (genAllWorlds ["a","b","c"]) ([["a"],["b"],["c"],["a","b"],["a","c"],["b","c"],["a","b","c"],[]])]
 
+--fonction auxilliaire récursive de genAllWorlds
 genAllWorldsRec:: World -> [World]
 genAllWorldsRec [] = []
 genAllWorldsRec (x:xs) = forEachAddList x (forEachAddList x ((genAllList xs))++genAllWorldsRec xs) ++ genAllWorldsRec xs
@@ -37,6 +39,7 @@ forEachAddList a (x:xs)
 testForEachAddList=[forEachAddList 1 []==[],
     forEachAddList 1 [[1],[2]]==[[1],[1,2]]]
 
+--retourne vrai si l'element est dans la liste
 isInList :: Eq a => a -> [a] -> Bool
 isInList _ []=False
 isInList a (x:xs)
@@ -47,6 +50,7 @@ testIsInList=[isInList 5 []==False,
     isInList 4 [1,2]==False,
     isInList 4 [1,2,3,4]==True]
 
+--retourne vrai si chaque element de la premiere liste est présent au moins une fois dans la deuxieme
 listIsInList :: Eq a => [a]->[a]->Bool
 listIsInList [] [] = True
 listIsInList _ [] = False
@@ -66,6 +70,7 @@ testGenAllList :: [Bool]
 testGenAllList = [genAllList [1]==[[1]],
     genAllList [1,2,3]==[[1],[2],[3]]]
 
+--verifie si le monde satisfait la formule
 sat :: World -> Formula -> Bool
 sat _ T = True
 sat _ F = False
@@ -99,7 +104,7 @@ testFindVar = [findVar (Var "a")==["a"],
     findVar (And (Var "a")(Var "a"))==["a"],
     findVar (And (Var "a") (Var "b"))==["a","b"]]
 
-
+--trouve le ou les mondes satisfaisant la formule
 findWorlds:: Formula -> [World]
 findWorlds f = findWorldsRec f (genAllWorlds (findVar f))
 
@@ -125,6 +130,7 @@ uniq (x:xs) = x : uniq (filter (/=x) xs)
 testUniq :: [Bool]
 testUniq = [uniq [1,1,2,2,3,3,3,3,4]==[1,2,3,4]]
 
+--retourne vrai si la liste de Bool contient uniquement Vrai
 test:: [Bool] -> Bool
 test []=True
 test (x:xs)= x && test xs
@@ -132,8 +138,10 @@ test (x:xs)= x && test xs
 testTest :: [Bool]
 testTest=[test[True, True, True]==True, test[True,False]==False]
 
-
+--test si toutes les fonctions de test retournent Vrai
 testAll::[Char]
 testAll
-    |test testGenAllWorlds && test testGenAllWorldsRec && test testForEachAddList && test testIsInList && test testListIsInList && test testGenAllList && test testSat && test testFindVar && test testFindWorlds && test testFindWorldsRec && test testUniq && test testTest = "Success !"
+    |test testGenAllWorlds && test testGenAllWorldsRec && test testForEachAddList && test testIsInList && test testListIsInList && test testGenAllList && test testSat && test testFindVar && test testFindWorlds && test testFindWorldsRec && test testUniq && test testTest  = "Success !"
     |otherwise ="Failure !"
+testTestAll :: [Bool]
+testTestAll=[ testAll == "Success !"]
