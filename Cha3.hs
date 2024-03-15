@@ -9,7 +9,7 @@ reglement :: Formula -> Formula -> Formula
 reglement f1 f2 = Or (And (f1) (f2)) (And (Not f1) ( Not f2))
 
 porte1 :: Formula
-porte1 = Or (And (Var "t1") (Not (Var "p2"))) (And (Var "p2") (Not (Var "t1")))
+porte1 = Or (Var "t1") (Var "p2") 
 
 porte2 :: Formula
 porte2 = Var "p1"
