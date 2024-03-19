@@ -17,14 +17,14 @@ reglement f1 f2 f3 = And (And (Imp f1 (And (Not f2)(Not f3)))
     ))
     (Imp f3 (And (Not f2)(Not f1)))
 
-porte1 :: Formula
-porte1= Var "t1"
+door1 :: Formula
+door1= Var "t1"
 
-porte2 :: Formula
-porte2=Var "p2"
+door2 :: Formula
+door2=Var "p2"
 
-porte3 :: Formula
-porte3 = Var "t2"
+door3 :: Formula
+door3 = Var "t2"
 
 challenge6 :: Formula
-challenge6 = And (reglement porte1 porte2 porte3) constraint
+challenge6 = And (reglement door1 door2 door3) constraint
