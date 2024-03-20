@@ -4,11 +4,20 @@ import CPL
 constraint:: Formula
 constraint= And (And (Not (Eqv(Var "p1")(Var "t1"))) (Not (Eqv(Var "p2")(Var "t2")))) (Not (Eqv(Var "p3")(Var "t3")))
 
-reglement :: Formula -> Formula -> Formula -> Formula
-reglement f1 f2 f3 = And (And (Imp f1 (And (Not f2)(Not f3)))
-    (Imp f2 (And (Not f1)(Not f3))
-    ))
-    (Imp f3 (And (Not f2)(Not f1)))
+reglement :: Formula
+reglement = And(And (And (Imp door1 (And (Not door2)(Not door3)))
+    (Imp door2 (And (Not door1)(Not door3))))
+    (Imp door3 (And (Not door2)(Not door1))))
+    (And (And (Imp (Var "p1") (And (Not (Var "p2"))(Not (Var "p3"))))
+    (Imp (Var "p2") (And (Not (Var "p1"))(Not (Var "p3")))))
+    (Imp (Var "p3") (And (Not (Var "p2"))(Not (Var "p1")))))
+    
+
+testf::Formula
+testf=And(And(Or(Var "p1")(Var "p3"))(Not(And(Var "p1")(Var "p3"))))(Not(And(And(Var "p1")(Var "p2"))(Var "p3")))
+
+testff::Formula
+testff=And testf constraint
 
 door1 :: Formula
 door1= Var "t1"
@@ -20,4 +29,4 @@ door3 :: Formula
 door3 = Var "t2"
 
 challenge6 :: Formula
-challenge6 = And (reglement door1 door2 door3) constraint
+challenge6 = And reglement constraint
